@@ -1,0 +1,19 @@
+@import "~@/assets/style/helper.scss";
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size:$font-size;
+  font-family: $font-Hei;
+  color:inherit;
+  &:focus{
+    outline:none;
+  }
+}
+
+a {
+  text-decoration: none;
+}
+ul,li{
+  list-style: none;
+}
