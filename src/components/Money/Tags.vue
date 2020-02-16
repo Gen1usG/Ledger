@@ -1,22 +1,46 @@
 <template>
     <div class="tags">
         <ul>
-            <li>衣</li>
-            <li>食</li>
-            <li>住</li>
-            <li>行</li>
+            <li v-for="(tag) in tagList" :key="tag" @click="toggle(tag)"
+                :class="{selected:selectedList.indexOf(tag)>=0}">{{tag}}
+            </li>
         </ul>
-        <button>新增标签</button>
+        <button @click="createTag">新增标签</button>
     </div>
 </template>
 
 <script lang="ts">
-    import {Component} from "vue-property-decorator";
+    import {Component, Prop} from "vue-property-decorator";
     import Vue from 'vue';
 
     @Component
     export default class Tags extends Vue {
         name: "Tags" | undefined;
+        selectedList: string[] = [];
+        @Prop() tagList: string[] | undefined;
+
+        toggle(el: string) {
+            const index = this.selectedList.indexOf(el);
+            if (index >= 0) {
+                this.selectedList.splice(index, 1);
+            } else {
+                this.selectedList.push(el);
+            }
+            console.log(this.selectedList);
+        }
+
+        createTag() {
+            const newTag = window.prompt('请输入标签名');
+            if (newTag) {
+                if (this.tagList!.indexOf(newTag as string) >= 0) {
+                    alert('该标签已存在');
+                } else if (newTag!.length <= 0) {
+                    return;
+                } else {
+                    this.$emit('update:tagList', [...this.tagList!, newTag]);
+                }
+            }
+        }
 
     }
 </script>
@@ -25,6 +49,8 @@
     .tags {
         ul {
             display: flex;
+            flex-wrap: wrap;
+            padding-right: 8px;
 
             li {
                 $h: 24px;
@@ -36,6 +62,11 @@
                 margin-left: 16px;
                 margin-top: 8px;
                 color: #484848;
+
+                &.selected {
+                    background-color: darken(#D9D9D9, 50%);
+                    color: #fff;
+                }
             }
         }
 

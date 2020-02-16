@@ -4,7 +4,7 @@
             <Numpad/>
             <Types/>
             <Notes/>
-            <Tags/>
+            <Tags :tagList.sync="tagList" />
         </Layout>
     </div>
 </template>
@@ -17,7 +17,12 @@
 
     export default {
         name: "Money",
-        components: {Numpad, Tags, Types, Notes}
+        components: {Numpad, Tags, Types, Notes},
+        data(){
+            return{
+                tagList:['衣', '食', '住', '行','彩票'],
+            }
+        }
     }
 </script>
 
