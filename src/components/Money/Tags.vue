@@ -48,9 +48,11 @@
 <style scoped lang="scss">
     .tags {
         ul {
+            max-height: 80px;
             display: flex;
             flex-wrap: wrap;
             padding-right: 8px;
+            overflow: auto;
 
             li {
                 $h: 24px;

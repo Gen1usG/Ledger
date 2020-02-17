@@ -1,23 +1,23 @@
 <template>
     <div class="numpad">
         <label>
-            <input class="input"/>
+            <input class="input" :value="value"/>
         </label>
         <div class="buttons">
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>删除</button>
-            <button>4</button>
-            <button>5</button>
-            <button>6</button>
-            <button>清空</button>
-            <button>7</button>
-            <button>8</button>
-            <button>9</button>
-            <button>OK</button>
-            <button>0</button>
-            <button>.</button>
+            <button @click="inputNum">1</button>
+            <button @click="inputNum">2</button>
+            <button @click="inputNum">3</button>
+            <button @click="deleteNum">删除</button>
+            <button @click="inputNum">4</button>
+            <button @click="inputNum">5</button>
+            <button @click="inputNum">6</button>
+            <button @click="clear">清空</button>
+            <button @click="inputNum">7</button>
+            <button @click="inputNum">8</button>
+            <button @click="inputNum">9</button>
+            <button @click="ok">OK</button>
+            <button @click="inputNum">0</button>
+            <button @click="inputNum">.</button>
         </div>
     </div>
 </template>
@@ -28,7 +28,41 @@
 
     @Component
     export default class Numpad extends Vue {
-        name: "Numpads" | undefined;
+        name: "Numpad" | undefined;
+        value: String = '0';
+
+        inputNum(el: any) {
+            const button = el.target;
+            const num = button.textContent;
+            if (this.value === '0') {
+                if ('1234567890'.indexOf(num) >= 0) {
+                    this.value = num;
+                } else if (num === '.') {
+                    this.value += num;
+                }
+            } else {
+                if (num === '.' && this.value.indexOf('.') >= 0) {
+                    return;
+                } else if (this.value.length <= 16) {
+                    this.value += num;
+                } else {
+                    return;
+                }
+            }
+        }
+        clear(){
+            this.value = '0'
+        }
+        deleteNum(){
+            if(this.value.length>1){
+                this.value = this.value.substring(0,this.value.length-1)
+            }else{
+                this.value = '0'
+            }
+        }
+        ok(){
+            console.log('ok');
+        }
     }
 </script>
 
