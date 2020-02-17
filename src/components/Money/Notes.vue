@@ -2,7 +2,7 @@
     <div class="notes">
         <label>
             备注
-            <input type="text" placeholder="在这里添加备注">
+            <input type="text" placeholder="在这里添加备注" v-model="value">
         </label>
     </div>
 </template>
@@ -13,7 +13,8 @@
     @Component
 
     export default class Notes extends Vue{
-        name: "Notes" | undefined
+        name: "Notes" | undefined;
+        value:String|undefined = '';
     }
 </script>
 

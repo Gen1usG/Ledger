@@ -71,6 +71,7 @@
 
     .numpad {
         .input {
+            @extend  %innerShadow;
             font-family: Consolas monospace;
             padding: 12px 5px;
             border: none;
