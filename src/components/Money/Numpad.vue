@@ -1,7 +1,7 @@
 <template>
     <div class="numpad">
         <label>
-            <input class="input" :value="value"/>
+            <input class="input" :value="nums" disabled/>
         </label>
         <div class="buttons">
             <button @click="inputNum">1</button>
@@ -24,44 +24,49 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    import {Component} from 'vue-property-decorator';
+    import {Component, Prop} from 'vue-property-decorator';
 
     @Component
     export default class Numpad extends Vue {
-        name: "Numpad" | undefined;
-        value: String = '0';
+        @Prop(Number) value: number | undefined;
+        nums: string = JSON.stringify(this.value);
 
         inputNum(el: any) {
             const button = el.target;
             const num = button.textContent;
-            if (this.value === '0') {
+            if (this.nums === '0') {
                 if ('1234567890'.indexOf(num) >= 0) {
-                    this.value = num;
+                    this.nums = num;
                 } else if (num === '.') {
-                    this.value += num;
+                    this.nums += num;
                 }
             } else {
-                if (num === '.' && this.value.indexOf('.') >= 0) {
+                if (num === '.' && this.nums.indexOf('.') >= 0) {
                     return;
-                } else if (this.value.length <= 16) {
-                    this.value += num;
+                } else if (this.nums.length <= 16) {
+                    this.nums += num;
                 } else {
                     return;
                 }
             }
         }
-        clear(){
-            this.value = '0'
+
+        clear() {
+            this.nums = '0';
         }
-        deleteNum(){
-            if(this.value.length>1){
-                this.value = this.value.substring(0,this.value.length-1)
-            }else{
-                this.value = '0'
+
+        deleteNum() {
+            if (this.nums.length > 1) {
+                this.nums = this.nums.substring(0, this.nums.length - 1);
+            } else {
+                this.nums = '0';
             }
         }
-        ok(){
-            console.log('ok');
+
+        ok() {
+            this.$emit('update:value', parseFloat(this.nums));
+            this.clear();
+            this.$emit('update:recordList');
         }
     }
 </script>
@@ -71,13 +76,14 @@
 
     .numpad {
         .input {
-            @extend  %innerShadow;
+            @extend %innerShadow;
             font-family: Consolas monospace;
             padding: 12px 5px;
             border: none;
             width: 100%;
             font-size: 36px;
             text-align: right;
+            background-color: #fff;
 
         }
 

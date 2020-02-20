@@ -10,12 +10,11 @@
 </template>
 
 <script lang="ts">
-    import {Component, Prop} from "vue-property-decorator";
+    import {Component, Prop, Watch} from "vue-property-decorator";
     import Vue from 'vue';
 
     @Component
     export default class Tags extends Vue {
-        name: "Tags" | undefined;
         selectedList: string[] = [];
         @Prop() tagList: string[] | undefined;
 
@@ -26,7 +25,7 @@
             } else {
                 this.selectedList.push(el);
             }
-            console.log(this.selectedList);
+
         }
 
         createTag() {
@@ -42,13 +41,18 @@
             }
         }
 
+        @Watch('selectedList')
+        onSelectedListChange(value:string[]){
+            this.$emit('update:value', value);
+        }
+
     }
 </script>
 
 <style scoped lang="scss">
     .tags {
         ul {
-            max-height: 80px;
+            max-height: 100px;
             display: flex;
             flex-wrap: wrap;
             padding-right: 8px;
