@@ -1,17 +1,21 @@
 <template>
-  <div>
-    <router-view></router-view>
-  </div>
+    <div>
+        <router-view></router-view>
+    </div>
 </template>
 
 <script lang="ts">
-    export default {
-        name: 'App'
+
+    import Vue from 'vue';
+    import {Component} from 'vue-property-decorator';
+    @Component
+    export default class App extends Vue {
+
     }
 </script>
 
 <style lang="scss">
-@import "~@/assets/style/reset.scss";
+    @import "~@/assets/style/reset.scss";
 
 </style>
 
