@@ -22,6 +22,7 @@
 
         .main {
             flex-grow: 1;
+            background-color: #E5E5E5;
         }
     }
 </style>
