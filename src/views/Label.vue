@@ -1,16 +1,17 @@
 <template>
     <Layout>
-        <div class="label-wrapper">
-            <ul class='tags-wrapper'>
-                <li v-for="tag in tags" :key="tag.id">
+        <div>
+            <div class="tags-wrapper">
+                <router-link class="tag" v-for="tag in tags" :key="tag.id" :to="`/label/edit/${tag.id}`">
                     <div>
                         <span>{{tag.name}}</span>
                         <Icon name="right" class="right-icon"/>
                     </div>
-                </li>
-            </ul>
+                </router-link>
+            </div>
+
             <div class="button-wrapper">
-                <button @click="createTag">新建标签</button>
+                <Button class="button" @click.native="createTag">新建标签</Button>
             </div>
         </div>
     </Layout>
@@ -21,10 +22,11 @@
     import {Component} from 'vue-property-decorator';
     import Icon from '@/components/Icon.vue';
     import modelTags from '@/models/modelTags';
+    import Button from '@/components/Button.vue';
 
     modelTags.getTags();
     @Component({
-        components: {Icon}
+        components: {Button, Icon}
     })
     export default class Label extends Vue {
         tags = modelTags.data;
@@ -32,11 +34,16 @@
         // createTag = modelTags.createTag;
         createTag() {
             const newName = window.prompt('请输入标签名') as string;
-            const message = modelTags.createTag(newName);
-            if(message==='duplicated'){
-                alert('已存在该标签')
-            }else if(message==='success'){
-                alert('添加标签成功')
+            let message: string = '';
+            if (newName.length > 0) {
+                message = modelTags.createTag(newName);
+            } else {
+                alert('标签名不能为空');
+            }
+            if (message === 'duplicated') {
+                alert('已存在该标签');
+            } else if (message === 'success') {
+                alert('添加标签成功');
             }
         }
     }
@@ -44,11 +51,12 @@
 
 <style scoped lang="scss">
     .tags-wrapper {
-        position: relative;
         background-color: #fff;
+        position: relative;
         font-size: 16px;
 
-        li {
+        .tag {
+
             div {
                 border-bottom: 1px solid #E5E5E5;
                 padding-top: 12px;
@@ -66,6 +74,7 @@
         }
     }
 
+
     .button-wrapper {
         width: 100%;
         padding: 44px;
@@ -73,17 +82,8 @@
         align-items: center;
         justify-content: center;
 
-        button {
-            border: none;
-            border-radius: 4px;
-            height: 40px;
-            line-height: 40px;
-            text-align: center;
+        .button {
             background-color: #767676;
-            color: #ffffff;
-            font-size: 17px;
-            width: 98px;
-
         }
     }
 </style>
