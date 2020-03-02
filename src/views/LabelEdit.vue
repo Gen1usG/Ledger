@@ -6,10 +6,10 @@
             <div class="icon"></div>
         </div>
         <div class="labelInfo">
-            <FormItem :name="`标签名`" :value="name" class="formItem"></FormItem>
+            <FormItem :name="`标签名`" :value="name" @update:value="update" class="formItem"></FormItem>
         </div>
         <div class="button-wrapper">
-            <Button class="button">删除标签</Button>
+            <Button class="button" @click.native="remove">删除标签</Button>
         </div>
     </Layout>
 </template>
@@ -29,48 +29,63 @@
     })
     export default class LabelEdit extends Vue {
         name: string = '';
+        tags = modelTags.data;
 
-        turnBack(){
-            this.$router.back()
+        turnBack() {
+            this.$router.back();
         }
 
         created() {
             const id = this.$route.params.id;
-            const tags = modelTags.data;
-            this.name = tags.filter(item=>item.id===id)[0].name
+            this.name = this.tags.filter(item => item.id === id)[0].name;
+        }
+
+        remove() {
+            const tag = this.tags.filter(item => item.id === this.$route.params.id)[0];
+            modelTags.removeTag(tag);
+            this.$router.replace('/label');
+        }
+
+        update(ev: any) {
+            const newName = ev.target.value;
+            const id = this.$route.params.id;
+            modelTags.update(newName,id)
         }
 
     }
 </script>
 
 <style scoped lang="scss">
-    .top{
+    .top {
         background-color: #fff;
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 14px;
         font-size: 16px;
-        color:#333;
+        color: #333;
 
-        .icon{
+        .icon {
             width: 20px;
             height: 20px;
         }
     }
-    
-    .labelInfo{
+
+    .labelInfo {
         background-color: #fff;
         margin-top: 8px;
-        padding: 2px 0 ;
-        .formItem{
+        padding: 2px 0;
+
+        .formItem {
             background-color: #fff;
         }
     }
-    .button-wrapper{
+
+    .button-wrapper {
         text-align: center;
         padding: 16px;
         margin-top: 44-16px;
+
         .button {
             background-color: red;
         }

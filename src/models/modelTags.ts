@@ -10,6 +10,8 @@ type modelTags = {
     getTags: () => Tag[],
     saveTags: () => void,
     createTag: (name: string) => 'success' | 'duplicated',
+    removeTag: (tag: Tag) => void,
+    update:(newValue:string,id:string)=>void
 }
 
 const localStorageName = 'Tags';
@@ -35,19 +37,21 @@ const modelTags: modelTags = {
         this.data.push({id, name: name});
         this.saveTags();
         return 'success';
+    },
+
+    removeTag(tag) {
+        const index = this.data.indexOf(tag);
+        this.data.splice(index, 1);
+        this.saveTags()
+    },
+
+    update(newName,id){
+        this.getTags();
+        const tag = this.data.filter(item=>item.id===id)[0];
+        tag.name = newName;
+        this.saveTags()
     }
-    // const newTag = {
-    //     id: createdID.created(),
-    //     name: window.prompt('请输入标签名') as string
-    // };
-    // console.log(this.data);
-    // const dataNames = this.data.map(item => item.name);
-    // if (dataNames.indexOf(newTag.name) >= 0) {
-    //     window.alert('已存在标签');
-    // } else {
-    //     this.data.push(newTag);
-    //     this.saveTags();
-    // }
+
 };
 
 
