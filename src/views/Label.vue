@@ -21,22 +21,22 @@
     import Vue from 'vue';
     import {Component} from 'vue-property-decorator';
     import Icon from '@/components/Icon.vue';
-    import modelTags from '@/models/modelTags';
     import Button from '@/components/Button.vue';
+    import store from '@/store/store';
 
-    modelTags.getTags();
+
     @Component({
         components: {Button, Icon}
     })
     export default class Label extends Vue {
-        tags = modelTags.data;
+        tags = store.tags;
 
         // createTag = modelTags.createTag;
         createTag() {
             const newName = window.prompt('请输入标签名') as string;
             let message: string = '';
             if (newName.length > 0) {
-                message = modelTags.createTag(newName);
+                message = store.createTag(newName);
             } else {
                 alert('标签名不能为空');
             }

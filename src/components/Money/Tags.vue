@@ -1,8 +1,8 @@
 <template>
     <div class="tags">
         <ul>
-            <li v-for="(tag) in tagList" :key="tag" @click="toggle(tag)"
-                :class="{selected:selectedList.indexOf(tag)>=0}">{{tag}}
+            <li v-for="tag in tagList" :key="tag.id" @click="toggle(tag)"
+                :class="{selected:selectedList.indexOf(tag)>=0}">{{tag.name}}
             </li>
         </ul>
         <button @click="createTag">新增标签</button>
@@ -10,39 +10,37 @@
 </template>
 
 <script lang="ts">
-    import {Component, Prop, Watch} from "vue-property-decorator";
+    import {Component,  Watch} from "vue-property-decorator";
     import Vue from 'vue';
+    import store from '@/store/store';
 
     @Component
     export default class Tags extends Vue {
-        selectedList: string[] = [];
-        @Prop() tagList: string[] | undefined;
+        tagList = store.tags;
+        selectedList: Tag[] = [];
 
-        toggle(el: string) {
+        toggle(el:Tag) {
             const index = this.selectedList.indexOf(el);
             if (index >= 0) {
                 this.selectedList.splice(index, 1);
             } else {
                 this.selectedList.push(el);
             }
-
         }
 
         createTag() {
-            const newTag = window.prompt('请输入标签名');
+            const newTag = window.prompt('请输入标签名') as string;
             if (newTag) {
-                if (this.tagList!.indexOf(newTag as string) >= 0) {
-                    alert('该标签已存在');
-                } else if (newTag!.length <= 0) {
-                    return;
+                if (newTag!.length <= 0) {
+                    return alert('标签名不能为空');
                 } else {
-                    this.$emit('update:tagList', [...this.tagList!, newTag]);
+                    store.createTag(newTag);
                 }
             }
         }
 
         @Watch('selectedList')
-        onSelectedListChange(value:string[]){
+        onSelectedListChange(value: string[]) {
             this.$emit('update:value', value);
         }
 

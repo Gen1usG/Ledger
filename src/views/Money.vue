@@ -4,7 +4,7 @@
             <Numpad :value.sync="record.numpad" @update:recordList="onUpdateRecordList"/>
             <Types :value.sync="record.type"/>
             <Notes :value.sync="record.note"/>
-            <Tags :tagList.sync="tagList" @update:value="onGetTags"/>
+            <Tags @update:value="onGetTags"/>
         </Layout>
     </div>
 </template>
@@ -16,14 +16,14 @@
     import Types from "@/components/Money/Types.vue";
     import Notes from "@/components/Money/Notes.vue";
     import Numpad from "@/components/Money/Numpad.vue";
-    import modelRecordList from '@/models/modelRecordList.ts'
+    import store from '@/store/store';
 
 
     @Component({components: {Numpad, Tags, Types, Notes}})
     export default class Money extends Vue {
-        tagList: string[] = ['衣', '食', '住', '行', '彩票'];
+
         record: RecordItem = {tags: [], type: '-', note: '', numpad: 0};
-        recordList = modelRecordList.getRecordList();
+        recordList = store.getRecordList();
 
         onGetTags(value: string[]) {
             this.record.tags = value;
@@ -32,9 +32,9 @@
         onUpdateRecordList() {
             console.log(this.recordList);
             this.record.createTime = new Date();
-            const temp = modelRecordList.clone(this.record);
+            const temp = store.cloneRecord(this.record);
             this.recordList.push(temp);
-            modelRecordList.setRecordList(this.recordList);
+            store.setRecordList(this.recordList);
         }
 
     }

@@ -21,15 +21,14 @@
     import Button from '@/components/Button.vue';
     import FormItem from '@/components/FormItem.vue';
     import Layout from '@/components/Layout.vue';
-    import modelTags from '@/models/modelTags';
+    import store from '@/store/store';
 
-    modelTags.getTags();
     @Component({
         components: {FormItem, Button, Icon, Layout}
     })
     export default class LabelEdit extends Vue {
         name: string = '';
-        tags = modelTags.data;
+        tags = store.tags;
 
         turnBack() {
             this.$router.back();
@@ -42,14 +41,14 @@
 
         remove() {
             const tag = this.tags.filter(item => item.id === this.$route.params.id)[0];
-            modelTags.removeTag(tag);
+            store.removeTag(tag);
             this.$router.replace('/label');
         }
 
         update(ev: any) {
             const newName = ev.target.value;
             const id = this.$route.params.id;
-            modelTags.update(newName,id)
+            store.updateTag(newName,id)
         }
 
     }

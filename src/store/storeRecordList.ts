@@ -1,15 +1,10 @@
-type modelRecordList = {
-    getRecordList: () => RecordItem[],
-    clone: (record: RecordItem) => RecordItem,
-    setRecordList: (recordList: RecordItem[]) => void,
-}
 
 const localStorageName = 'recordList';
-const modelRecordList: modelRecordList = {
+const storeRecordList: storeRecordList = {
     getRecordList() {
         return JSON.parse(window.localStorage.getItem(localStorageName) || '[]') ;
     },
-    clone(record) {
+    cloneRecord(record) {
         return JSON.parse(JSON.stringify(record));
     },
     setRecordList(recordList) {
@@ -17,4 +12,4 @@ const modelRecordList: modelRecordList = {
     }
 };
 
-export default modelRecordList;
+export default storeRecordList;
