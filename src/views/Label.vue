@@ -18,34 +18,24 @@
 </template>
 
 <script lang="ts">
-    import Vue from 'vue';
     import {Component} from 'vue-property-decorator';
     import Icon from '@/components/Icon.vue';
     import Button from '@/components/Button.vue';
-    import store from '@/store/store';
+    import createTag from '@/mixins/createTag';
 
 
     @Component({
         components: {Button, Icon}
     })
-    export default class Label extends Vue {
-        tags = store.tags;
-
-        // createTag = modelTags.createTag;
-        createTag() {
-            const newName = window.prompt('请输入标签名') as string;
-            let message: string = '';
-            if (newName.length > 0) {
-                message = store.createTag(newName);
-            } else {
-                alert('标签名不能为空');
-            }
-            if (message === 'duplicated') {
-                alert('已存在该标签');
-            } else if (message === 'success') {
-                alert('添加标签成功');
-            }
+    export default class Label extends createTag {
+        get tags(){
+            return this.$store.state.tags
         }
+
+        created(){
+            this.$store.commit('getTags')
+        }
+
     }
 </script>
 

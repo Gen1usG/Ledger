@@ -21,34 +21,34 @@
     import Button from '@/components/Button.vue';
     import FormItem from '@/components/FormItem.vue';
     import Layout from '@/components/Layout.vue';
-    import store from '@/store/store';
 
     @Component({
         components: {FormItem, Button, Icon, Layout}
     })
     export default class LabelEdit extends Vue {
         name: string = '';
-        tags = store.tags;
+        tags = this.$store.state.tags;
 
         turnBack() {
             this.$router.back();
         }
 
         created() {
+            this.$store.commit('getTags');
             const id = this.$route.params.id;
-            this.name = this.tags.filter(item => item.id === id)[0].name;
+            this.name = this.tags.filter((item: Tag) => item.id === id)[0].name;
         }
 
         remove() {
-            const tag = this.tags.filter(item => item.id === this.$route.params.id)[0];
-            store.removeTag(tag);
+            const tag = this.tags.filter((item: Tag) => item.id === this.$route.params.id)[0];
+            this.$store.commit('removeTag',tag);
             this.$router.replace('/label');
         }
 
         update(ev: any) {
             const newName = ev.target.value;
             const id = this.$route.params.id;
-            store.updateTag(newName,id)
+            this.$store.commit('updateTag', {name: newName, id});
         }
 
     }

@@ -7,7 +7,7 @@ type storeTags = {
     tags: Tag[],
     getTags: () => Tag[],
     saveTags: () => void,
-    createTag: (name: string) => 'success' | 'duplicated',
+    createTag: (name: string) => void,
     removeTag: (tag: Tag) => 'success' | 'fail',
     updateTag:(newValue:string,id:string)=>'success' | 'duplicated'|'not found'
 }

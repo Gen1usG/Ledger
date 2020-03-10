@@ -10,16 +10,22 @@
 </template>
 
 <script lang="ts">
-    import {Component,  Watch} from "vue-property-decorator";
-    import Vue from 'vue';
-    import store from '@/store/store';
+    import {Component, Watch} from "vue-property-decorator";
+    import createTag from '@/mixins/createTag';
+
 
     @Component
-    export default class Tags extends Vue {
-        tagList = store.tags;
+    export default class Tags extends createTag {
+        get tagList(){
+            return this.$store.state.tags;
+        }
         selectedList: Tag[] = [];
 
-        toggle(el:Tag) {
+        created() {
+            this.$store.commit('getTags');
+        }
+
+        toggle(el: Tag) {
             const index = this.selectedList.indexOf(el);
             if (index >= 0) {
                 this.selectedList.splice(index, 1);
@@ -28,16 +34,7 @@
             }
         }
 
-        createTag() {
-            const newTag = window.prompt('请输入标签名') as string;
-            if (newTag) {
-                if (newTag!.length <= 0) {
-                    return alert('标签名不能为空');
-                } else {
-                    store.createTag(newTag);
-                }
-            }
-        }
+
 
         @Watch('selectedList')
         onSelectedListChange(value: string[]) {
