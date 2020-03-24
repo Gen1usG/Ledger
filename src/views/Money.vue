@@ -2,7 +2,7 @@
     <div>
         <Layout class-prefix="layout">
             <Numpad :value.sync="record.numpad" @update:recordList="onUpdateRecordList"/>
-            <Types :value.sync="record.type"/>
+            <Tabs :data-source="dataSource" :value.sync="record.type"/>
             <Notes :value.sync="record.note"/>
             <Tags @update:value="onGetTags"/>
         </Layout>
@@ -13,15 +13,17 @@
     import Vue from 'vue';
     import {Component} from 'vue-property-decorator';
     import Tags from "@/components/Money/Tags.vue";
-    import Types from "@/components/Money/Types.vue";
     import Notes from "@/components/Money/Notes.vue";
     import Numpad from "@/components/Money/Numpad.vue";
     import cloneObj from '@/models/cloneObj';
+    import recordTypeList from '@/constants/recordTypeList';
+    import Tabs from '@/components/Tabs.vue';
 
 
-    @Component({components: {Numpad, Tags, Types, Notes}})
+    @Component({components: {Tabs, Numpad, Tags, Notes}})
     export default class Money extends Vue {
         record: RecordItem = {tags: [], type: '-', note: '', numpad: 0};
+        dataSource = recordTypeList;
 
         get recordList() {
             return this.$store.state.recordList;
