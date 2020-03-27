@@ -54,8 +54,9 @@ export default new Vuex.Store({
         },
 
         // about Record
-        getRecordList() {
-            return JSON.parse(window.localStorage.getItem('recordList') || '[]') ;
+        getRecordList(state) {
+             state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') ;
+             return state.recordList
         },
 
         saveRecordList(state,recordList:RecordItem[]) {

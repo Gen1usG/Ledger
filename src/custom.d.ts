@@ -9,15 +9,15 @@ type storeTags = {
     saveTags: () => void,
     createTag: (name: string) => void,
     removeTag: (tag: Tag) => 'success' | 'fail',
-    updateTag:(newValue:string,id:string)=>'success' | 'duplicated'|'not found'
+    updateTag: (newValue: string, id: string) => 'success' | 'duplicated' | 'not found'
 }
 
 type RecordItem = {
-    tags: string[],
+    tags: Tag[],
     type: string,
     note: string,
     numpad: number,
-    createTime?: Date,
+    createTime?: Date | string | number,
 }
 
 type storeRecordList = {
@@ -25,3 +25,10 @@ type storeRecordList = {
     cloneRecord: (record: RecordItem) => RecordItem,
     setRecordList: (recordList: RecordItem[]) => void,
 }
+
+type ResultItem = {
+    title:string,
+    item:RecordItem[],
+    total?:number
+}
+

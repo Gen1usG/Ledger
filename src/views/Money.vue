@@ -35,7 +35,7 @@
 
         onUpdateRecordList() {
             console.log(this.recordList);
-            this.record.createTime = new Date();
+            this.record.createTime = new Date().toISOString();
             const temp = cloneObj(this.record);
             this.recordList.push(temp);
             this.$store.commit('saveRecordList', this.recordList);
