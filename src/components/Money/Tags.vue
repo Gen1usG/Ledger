@@ -2,7 +2,7 @@
     <div class="tags">
         <ul>
             <li v-for="tag in tagList" :key="tag.id" @click="toggle(tag)"
-                :class="{selected:selectedTags.indexOf(tag)>=0}">{{tag.name}}
+                :class="{selected:value.indexOf(tag)>=0}">{{tag.name}}
             </li>
         </ul>
         <button @click="createTag">新增标签</button>
@@ -10,14 +10,13 @@
 </template>
 
 <script lang="ts">
-    import {Component, Prop, Watch} from "vue-property-decorator";
+    import {Component, Prop} from "vue-property-decorator";
     import createTag from '@/mixins/createTag';
 
 
     @Component
     export default class Tags extends createTag {
-        @Prop(Array) selectedTags!: Tag[];
-        selectedList: Tag[] = [];
+        @Prop(Array) value!: Tag[];
 
         get tagList() {
             return this.$store.state.tags;
@@ -28,20 +27,13 @@
         }
 
         toggle(el: Tag) {
-            const index = this.selectedList.indexOf(el);
-            if (index >= 0) {
-                this.selectedList.splice(index, 1);
-                this.$emit('update:selectedTags', this.selectedList);
-            } else {
-                this.selectedList.push(el);
-                this.$emit('update:selectedTags', this.selectedList);
-            }
+            this.$emit('onTagsSelected',el)
         }
 
-        @Watch('selectedList')
-        onSelectedListChange(value: string[]) {
-            this.$emit('update:value', value);
-        }
+        // @Watch('selectedList')
+        // onSelectedListChange(value: string[]) {
+        //     this.$emit('update:value', value);
+        // }
 
     }
 </script>

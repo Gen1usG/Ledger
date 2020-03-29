@@ -14,6 +14,12 @@ export default new Vuex.Store({
         //about Tags
         getTags(state) {
             state.tags = JSON.parse(window.localStorage.getItem('Tags') || '[]');
+            if(state.tags.length===0){
+                store.commit('createTag','购物');
+                store.commit('createTag','住宿');
+                store.commit('createTag','出行');
+                store.commit('createTag','饮食');
+            }
         },
 
         saveTags(state) {
@@ -28,7 +34,9 @@ export default new Vuex.Store({
             const id = createdID.created().toString();
             state.tags.push({id, name: name});
             store.commit('saveTags');
-            window.alert('成功添加标签')
+            if(createdID.id>=4){
+                window.alert('成功添加标签')
+            }
         },
 
         removeTag(state, tag) {
