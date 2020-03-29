@@ -44,6 +44,8 @@
         background-color: #fff;
         position: relative;
         font-size: 16px;
+        max-height: 10*44px;
+        overflow: auto;
 
         .tag {
 
