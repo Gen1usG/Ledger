@@ -2,7 +2,7 @@
     <div>
         <Layout>
             <Tabs :data-source="dataSource" :value.sync="value"/>
-            <ol>
+            <ol v-if="result && result.length>0">
                 <li class="items-container" v-for="(group,key) in result" :key="key">
                     <h3>{{beautify(group.title)}}<span>￥{{group.total.toString()}}</span></h3>
                     <ol class="item-body">
@@ -14,6 +14,7 @@
                     </ol>
                 </li>
             </ol>
+            <div v-else class="no-record">当前无任何记录</div>
         </Layout>
     </div>
 </template>
@@ -78,8 +79,6 @@
                         });
                     }
                 }
-                console.log(result);
-
                 return result;
             }
 
@@ -180,5 +179,12 @@
             }
 
         }
+    }
+
+    .no-record{
+        width: 100%;
+        text-align: center;
+        margin-top:20px;
+        font-size: 17px;
     }
 </style>
