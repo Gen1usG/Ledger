@@ -4,7 +4,7 @@
             <Numpad :value.sync="record.numpad" @update:recordList="onUpdateRecordList"/>
             <Tabs :data-source="dataSource" :value.sync="record.type"/>
             <Notes :value.sync="record.note"/>
-            <Tags @update:value="onGetTags"/>
+            <Tags :value.sync="record.tags" :selectedTags.sync="selectedTags"/>
         </Layout>
     </div>
 </template>
@@ -24,22 +24,21 @@
     export default class Money extends Vue {
         record: RecordItem = {tags: [], type: '-', note: '', numpad: 0};
         dataSource = recordTypeList;
+        selectedTags: Tag[] = [];
 
         get recordList() {
             return this.$store.state.recordList;
         }
 
-        onGetTags(value: string[]) {
-            this.record.tags = value;
-        }
-
         onUpdateRecordList() {
-            console.log(this.recordList);
             this.record.createTime = new Date().toISOString();
             const temp = cloneObj(this.record);
             this.recordList.push(temp);
             this.$store.commit('saveRecordList', this.recordList);
+            this.record.note = '';
+            this.selectedTags = [];
         }
+
 
     }
 

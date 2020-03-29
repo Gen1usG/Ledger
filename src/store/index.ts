@@ -61,6 +61,7 @@ export default new Vuex.Store({
 
         saveRecordList(state,recordList:RecordItem[]) {
             window.localStorage.setItem('recordList', JSON.stringify(recordList));
+            alert('保存成功')
         }
     },
 });
