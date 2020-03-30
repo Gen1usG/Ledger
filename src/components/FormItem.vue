@@ -7,7 +7,7 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    import {Component, Prop, Watch} from 'vue-property-decorator';
+    import {Component, Prop} from 'vue-property-decorator';
 
     @Component
     export default class FormItem extends Vue {
@@ -15,7 +15,6 @@
         @Prop(String) placeholder?: string;
         @Prop({default: ''}) value!: string;
 
-        @Watch('value')
         onValueChanged(value: object) {
             this.$emit('update:value', value);
         }
